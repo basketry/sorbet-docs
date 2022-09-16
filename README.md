@@ -1,9 +1,9 @@
-[![main](https://github.com/basketry/sorbet-validators/workflows/build/badge.svg?branch=main&event=push)](https://github.com/basketry/sorbet-validators/actions?query=workflow%3Abuild+branch%3Amain+event%3Apush)
-[![master](https://img.shields.io/npm/v/@basketry/sorbet-validators)](https://www.npmjs.com/package/@basketry/sorbet-validators)
+[![main](https://github.com/basketry/sorbet-docs/workflows/build/badge.svg?branch=main&event=push)](https://github.com/basketry/sorbet-docs/actions?query=workflow%3Abuild+branch%3Amain+event%3Apush)
+[![master](https://img.shields.io/npm/v/@basketry/sorbet-docs)](https://www.npmjs.com/package/@basketry/sorbet-docs)
 
 # Sorbet Docs
 
-[Basketry generator](https://github.com/basketry) for documenting services that have a [Sorbet](https://sorbet.org/) laguange target. This parser can be coupled with any Basketry parser. It is recommended to use this generator alongside the [`@basketry/sorbet`](https://github.com/basketry/sorbet) generator.
+[Basketry generator](https://github.com/basketry) for documenting services that have a [Sorbet](https://sorbet.org/) languange target. This parser can be coupled with any Basketry parser. It is recommended to use this generator alongside the [`@basketry/sorbet`](https://github.com/basketry/sorbet) generator.
 
 ## Quick Start
 
