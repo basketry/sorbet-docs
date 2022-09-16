@@ -10,8 +10,10 @@ import {
   Parameter,
   Property,
   ReturnType,
+  Rule,
   Service,
   Type,
+  ValidationRule,
   warning,
 } from 'basketry';
 import { constant, kebab, pascal, snake, title } from 'case';
@@ -20,6 +22,7 @@ import { block, from, indent } from '@basketry/sorbet/lib/utils';
 
 import { NamespacedSorbetOptions } from '@basketry/sorbet/lib/types';
 import {
+  buildEnumNamespace,
   buildInterfaceName,
   buildMethodName,
   buildParameterName,
@@ -210,7 +213,7 @@ class Builder {
     if (method.parameters.length) {
       yield '';
       for (const param of method.parameters) {
-        yield this.buildParameter(param);
+        yield* this.buildParameter(param);
       }
     }
     if (method.returnType) {
@@ -244,12 +247,54 @@ class Builder {
     return `${buildMethodName(method)}${parameters}`;
   }
 
-  private buildParameter(param: Parameter): string {
-    return `- \`${buildParameterName(param)}\` ${this.buildLinkedTypeName(
+  private *buildParameter(param: Parameter): Iterable<string> {
+    yield `- \`${buildParameterName(param)}\` ${this.buildLinkedTypeName(
       param,
     )}${isRequired(param) ? '' : ' (optional)'}${this.buildParameterDescription(
       param,
     )}`;
+
+    yield* this.buildRules(param.rules);
+  }
+
+  private *buildRules(rules: Iterable<ValidationRule>): Iterable<string> {
+    for (const rule of rules) {
+      switch (rule.id) {
+        case 'array-max-items':
+          yield `  - Max array length: \`${rule.max.value}\``;
+          break;
+        case 'array-min-items':
+          yield `  - Min array length: \`${rule.min.value}\``;
+          break;
+        case 'array-unique-items':
+          yield `  - Values must be unique`;
+          break;
+        case 'number-gt':
+          yield `  - Must be greater than \`${rule.value.value}\``;
+          break;
+        case 'number-gte':
+          yield `  - Must be greater than or equal to \`${rule.value.value}\``;
+          break;
+        case 'number-lt':
+          yield `  - Must be less than \`${rule.value.value}\``;
+          break;
+        case 'number-lte':
+          yield `  - Must be less than or equal to \`${rule.value.value}\``;
+          break;
+        case 'number-multiple-of':
+          yield `  - Must be a multiple of \`${rule.value.value}\``;
+          break;
+        case 'string-max-length':
+          yield `  - Max length: \`${rule.length.value}\``;
+          break;
+        case 'string-min-length':
+          yield `  - Min length: \`${rule.length.value}\``;
+          break;
+        case 'string-pattern':
+          yield `  - Must match pattern: \`${rule.pattern.value}\``;
+          break;
+      }
+    }
   }
 
   private buildLinkedTypeName(
@@ -292,16 +337,18 @@ class Builder {
     if (type.properties.length) {
       yield '';
       for (const prop of type.properties) {
-        yield this.buildProperty(prop);
+        yield* this.buildProperty(prop);
       }
     }
     yield '';
   }
 
-  private buildProperty(prop: Property): string {
-    return `- \`${buildPropertyName(prop)}\` ${this.buildLinkedTypeName(prop)}${
+  private *buildProperty(prop: Property): Iterable<string> {
+    yield `- \`${buildPropertyName(prop)}\` ${this.buildLinkedTypeName(prop)}${
       isRequired(prop) ? '' : ' (optional)'
     }${this.buildParameterDescription(prop)}`;
+
+    yield* this.buildRules(prop.rules);
   }
 
   private *buildEnumDocs(e: Enum): Iterable<string> {
@@ -330,10 +377,16 @@ class Builder {
       skipArrayify,
     });
 
-    return type.isPrimitive
-      ? fullyQualifiedName
-      : fullyQualifiedName.substring(
+    if (type.isPrimitive) return fullyQualifiedName;
+
+    const foundType = getTypeByName(this.service, type.typeName.value);
+
+    return foundType
+      ? fullyQualifiedName.substring(
           buildTypeNamespace(this.service, this.options).length + 2,
+        )
+      : fullyQualifiedName.substring(
+          buildEnumNamespace(this.service, this.options).length + 2,
         );
   }
 }

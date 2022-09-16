@@ -40,12 +40,14 @@ About @basketry/sorbet-docs: https://github.com/basketry/sorbet-docs#readme
 `delete_widget_foo(id:)`
 
 - `id` String - The widget ID
+  - Max length: `30`
 
 ### get_widget_foo
 
 `get_widget_foo(id:)`
 
 - `id` String - The widget ID
+  - Max length: `30`
 
 Returns: [Widget](#widget)
 
@@ -72,10 +74,16 @@ Returns: [Widget](#widget)
 `BasketryExample::V1::Types::Widget`
 
 - `id` String
+  - Max length: `30`
 - `name` String (optional)
+  - Max length: `30`
+  - Must match pattern: `[0-9a-fA-F]+`
 - `fiz` Numeric
+  - Must be a multiple of `3`
 - `buzz` Numeric (optional)
+  - Must be a multiple of `5`
 - `fizbuzz` Numeric (optional)
+  - Must be a multiple of `15`
 - `foo` [WidgetFoo](#widgetfoo) (optional)
 - `size` [ProductSize](#productsize) (optional)
 

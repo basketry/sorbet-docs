@@ -54,6 +54,9 @@ Only has a summary
 `update_gizmo(factors: nil)`
 
 - `factors` String[] (optional) - array of primitive
+  - Max array length: `6`
+  - Min array length: `2`
+  - Must match pattern: `[0-9a-fA-F]+`
 
 Returns: [Gizmo](#gizmo)
 
@@ -64,6 +67,7 @@ Returns: [Gizmo](#gizmo)
 `BasketryExample::V1::Types::Gizmo`
 
 - `id` String (optional)
+  - Max length: `30`
 - `name` String (optional)
 - `size` [ProductSize](#productsize) (optional)
 
