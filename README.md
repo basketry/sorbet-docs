@@ -3,7 +3,7 @@
 
 # Sorbet Docs
 
-[Basketry generator](https://github.com/basketry) for documenting services that have a [Sorbet](https://sorbet.org/) languange target. This parser can be coupled with any Basketry parser. It is recommended to use this generator alongside the [`@basketry/sorbet`](https://github.com/basketry/sorbet) generator.
+[Basketry generator](https://github.com/basketry) for documenting services that have a [Sorbet](https://sorbet.org/) language target. This parser can be coupled with any Basketry parser. It is recommended to use this generator alongside the [`@basketry/sorbet`](https://github.com/basketry/sorbet) generator.
 
 ## Quick Start
 
