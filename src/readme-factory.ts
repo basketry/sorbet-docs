@@ -352,15 +352,28 @@ class Builder {
   }
 
   private *buildEnumDocs(e: Enum): Iterable<string> {
+    const description = e.meta?.find(
+      (m) => m.key.value === 'codegen-enum-description',
+    )?.value?.value;
+    const valueDescriptions = e.meta?.find(
+      (m) => m.key.value === 'codegen-enum-value-descriptions',
+    )?.value?.value as Record<string, string> | undefined;
     yield `### ${pascal(e.name.value)}`;
     yield '';
     yield `\`${buildTypeNamespace(this.service, this.options)}::${pascal(
       e.name.value,
     )}\``;
+    if (description) {
+      yield '';
+      yield description;
+    }
     if (e.values.length) {
       yield '';
       for (const value of e.values) {
-        yield `- \`${value.value}\``;
+        const valueDescription = valueDescriptions?.[value.value];
+        yield `- \`${value.value}\`${
+          valueDescription ? ` - ${valueDescription}` : ''
+        }`;
       }
     }
     yield '';
