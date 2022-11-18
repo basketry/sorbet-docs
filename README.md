@@ -47,7 +47,7 @@ Note that the `lint` script is run prior to `build`. Auto-fixable linting or for
 1. Create the new version number with `npm version {major|minor|patch}`
 1. Push the branch and the version tag: `git push origin main --follow-tags`
 
-The [publish workflow](https://github.com/basketry/sorbet-validators/actions/workflows/publish.yml) will build and pack the new version then push the package to NPM. Note that publishing requires write access to the `main` branch.
+The [publish workflow](https://github.com/basketry/sorbet-docs/actions/workflows/publish.yml) will build and pack the new version then push the package to NPM. Note that publishing requires write access to the `main` branch.
 
 ---
 
