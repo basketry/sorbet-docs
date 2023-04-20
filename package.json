@@ -1,6 +1,6 @@
 {
   "name": "@basketry/sorbet-docs",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Basketry generator for documenting services that have a Sorbet language target.",
   "main": "./lib/index.js",
   "scripts": {
